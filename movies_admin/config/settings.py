@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', default=secret_key)
 
 DEBUG = os.getenv('DEBUG', default=False) == 'True'
 
-ALLOWED_HOSTS = [os.getenv('HOST')]
+ALLOWED_HOSTS = (os.getenv('HOST'),)
 
 include(
     'components/authentication.py',
@@ -28,7 +28,9 @@ ROOT_URLCONF = 'config.urls'
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-LANGUAGE_CODE = 'en-us'
+LOCALE_PATHS = ('movies/locale',)
+
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
 
