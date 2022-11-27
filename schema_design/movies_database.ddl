@@ -1,5 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS content;
 
+CREATE TYPE type AS ENUM ('movie', 'tv show');
+
 CREATE TABLE IF NOT EXISTS content.film_work
 (
     id            uuid PRIMARY KEY,
@@ -7,7 +9,7 @@ CREATE TABLE IF NOT EXISTS content.film_work
     description   TEXT,
     creation_date date,
     rating        FLOAT,
-    type          TEXT NOT NULL,
+    type          type NOT NULL,
     created       timestamp with time zone,
     modified      timestamp with time zone
 );
@@ -21,15 +23,12 @@ CREATE TABLE IF NOT EXISTS content.genre
     modified    timestamp with time zone
 );
 
-CREATE TYPE gender AS ENUM ('male', 'female');
-
 CREATE TABLE IF NOT EXISTS content.person
 (
     id        uuid PRIMARY KEY,
     full_name TEXT NOT NULL,
     created   timestamp with time zone,
-    modified  timestamp with time zone,
-    gender    gender NOT NULL
+    modified  timestamp with time zone
 );
 
 CREATE TABLE IF NOT EXISTS content.genre_film_work

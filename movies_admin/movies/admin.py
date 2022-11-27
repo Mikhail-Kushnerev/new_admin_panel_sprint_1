@@ -1,3 +1,5 @@
+"""Django админка"""
+
 from django.contrib import admin
 
 from .models import (
@@ -5,7 +7,7 @@ from .models import (
     Genre,
     GenreFilmwork,
     Person,
-    PersonFilmwork
+    PersonFilmwork,
 )
 
 
@@ -23,14 +25,14 @@ class FilmworkAdmin(admin.ModelAdmin):
         GenreFilmworkInline,
         PersonFilmworkInline,
     )
-    list_display = ('title', 'rating', 'type', 'creation_date',)
-    list_filter = ('rating', 'type',)
-    search_fields = ('title', 'description',)
+    list_display = ('title', 'rating', 'type', 'creation_date')
+    list_filter = ('rating', 'type')
+    search_fields = ('title', 'description')
 
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description',)
+    list_display = ('name', 'description')
 
 
 @admin.register(Person)
