@@ -2,6 +2,8 @@ from sqlite3 import Connection
 from collections import deque
 
 from sqlite_to_postgres.models import TABLES
+from sqlite_to_postgres.utils import PAGE_SIZE
+from sqlite_to_postgres.utils import EmptyDBError
 
 
 class SQLiteExtractor:
@@ -9,7 +11,7 @@ class SQLiteExtractor:
     def __init__(
             self,
             conn: Connection,
-            deque=deque()
+            deque=deque(),
     ):
         self.__cur = conn.cursor()
         self.__deque = deque
@@ -24,11 +26,11 @@ class SQLiteExtractor:
             SELECT name
             FROM sqlite_master
             WHERE type='table';
-            '''
+            ''',
         )
         datas = self.__cur.fetchall()
         if not self.size_datas(datas):
-            raise
+            raise EmptyDBError('Исходная таблица не содержит данных!')
         for table_name in datas:
             self.__deque.append(table_name[0])
 
@@ -36,9 +38,13 @@ class SQLiteExtractor:
         while self.__deque:
             table_name = self.__deque.popleft()
             if self.validate_name(table_name):
-                self.__cur.execute('''SELECT * FROM {0}'''.format(table_name))
+                self.__cur.execute(
+                    '''
+                    SELECT * FROM {0}
+                    '''.format(table_name),
+                )
                 while True:
-                    datas = self.__cur.fetchmany(500)
+                    datas = self.__cur.fetchmany(PAGE_SIZE)
                     if not self.size_datas(datas):
                         break
                     yield table_name, datas

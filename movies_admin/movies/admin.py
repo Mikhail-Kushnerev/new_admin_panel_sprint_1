@@ -1,4 +1,5 @@
-"""Django админка"""
+"""Django админка."""
+
 
 from django.contrib import admin
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-27 15:41+0300\n"
+"POT-Creation-Date: 2022-11-28 23:33+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,87 +24,88 @@ msgstr ""
 msgid "movies"
 msgstr "Фильмы"
 
-#: .\movies\models.py:16
+#: .\movies\models.py:20
 msgid "Genre"
 msgstr "Жанр"
 
-#: .\movies\models.py:17
+#: .\movies\models.py:21
 msgid "Genres"
 msgstr "Жанры"
 
-#: .\movies\models.py:23
+#: .\movies\models.py:27
 #, fuzzy
 #| msgid "movies"
 msgid "movie"
 msgstr "Фильмы"
 
-#: .\movies\models.py:24
+#: .\movies\models.py:28
 msgid "tv show"
 msgstr "Передача"
 
-#: .\movies\models.py:27
+#: .\movies\models.py:31
 msgid "title"
 msgstr "Название"
 
-#: .\movies\models.py:31
+#: .\movies\models.py:35
 msgid "description"
 msgstr "Описание"
 
-#: .\movies\models.py:35
+#: .\movies\models.py:40
 msgid "creation_date"
 msgstr "Дата выпуска"
 
-#: .\movies\models.py:39
+#: .\movies\models.py:45
 msgid "image"
 msgstr "Постер"
 
-#: .\movies\models.py:44
+#: .\movies\models.py:51
 msgid "rating"
 msgstr "Рейтинг"
 
-#: .\movies\models.py:52
+#: .\movies\models.py:60
 msgid "type"
 msgstr "Тип"
 
-#: .\movies\models.py:70
-msgid "Filmwork with this type exists"
-msgstr "Фильм с таким типом уже существует!"
-
-#: .\movies\models.py:73
+#: .\movies\models.py:75
 msgid "Filmwork"
 msgstr "Фильм"
 
-#: .\movies\models.py:74
+#: .\movies\models.py:76
 msgid "Filmworks"
 msgstr "Фильмы"
 
-#: .\movies\models.py:95
+#: .\movies\models.py:97
 msgid "full name"
 msgstr "ФИО актера"
 
-#: .\movies\models.py:101
+#: .\movies\models.py:103
 msgid "Person"
 msgstr "Актер"
 
-#: .\movies\models.py:102
+#: .\movies\models.py:104
 msgid "Persons"
 msgstr "Актеры"
 
-#: .\movies\models.py:108
+#: .\movies\models.py:110
 msgid "actor"
 msgstr "Актер"
 
-#: .\movies\models.py:109
+#: .\movies\models.py:111
 msgid "producer"
 msgstr "Продюсер"
 
-#: .\movies\models.py:110
+#: .\movies\models.py:112
 msgid "director"
 msgstr "Директор"
 
-#: .\movies\models.py:131
-msgid "Actor was added to this Filmwork"
+#: .\movies\models.py:133
+#, fuzzy
+#| msgid "Actor was added to this Filmwork"
+msgid "Actor with this Role was added to this Filmwork"
 msgstr "Актёр уже добавлен к данному фильму!"
+
+#~ msgid "Filmwork with this type exists"
+#~ msgstr "Фильм с таким типом уже существует!"
 
 #~ msgid "male"
 #~ msgstr "Мужчина"

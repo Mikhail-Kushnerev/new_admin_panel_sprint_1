@@ -1,4 +1,5 @@
-"""Django модели"""
+"""Django модели."""
+
 
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
@@ -10,7 +11,7 @@ from core.models import TimeStampedMixin, UUIDMixin
 class Genre(TimeStampedMixin):
     name = models.CharField(max_length=255)
     description = models.TextField(
-        # blank=True,
+        blank=True,
         null=True,
     )
 
@@ -23,8 +24,8 @@ class Genre(TimeStampedMixin):
 class Filmwork(TimeStampedMixin):
 
     class Type(models.TextChoices):
-        MOVIE = 'Movie', _('movie')
-        TV_SHOW = 'TV Show', _('tv show')
+        movie = 'Movie', _('movie')
+        tv_show = 'TV Show', _('tv show')
 
     title = models.TextField(
         verbose_name=_('title'),
@@ -106,9 +107,9 @@ class Person(TimeStampedMixin):
 class PersonFilmwork(UUIDMixin):
 
     class Role(models.TextChoices):
-        ACTOR = 'actor', _('actor')
-        PRODUCER = 'producer', _('producer')
-        DIRECTOR = 'director', _('director')
+        actor = 'actor', _('actor')
+        producer = 'producer', _('producer')
+        director = 'director', _('director')
 
     person = models.ForeignKey(
         Person,

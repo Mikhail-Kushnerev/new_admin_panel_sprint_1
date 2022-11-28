@@ -52,9 +52,9 @@ class PersonFilmwork(Id):
 
 
 TABLES = {
-    # 'film_work': Movie,
-    # 'genre': Genre,
-    # 'genre_film_work': GenreFilmwork,
-    # 'person': Person,
-    'person_film_work': PersonFilmwork
+    'film_work': Movie,
+    'genre': Genre,
+    'genre_film_work': GenreFilmwork,
+    'person': Person,
+    'person_film_work': PersonFilmwork,
 }
