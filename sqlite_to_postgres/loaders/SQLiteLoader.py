@@ -37,10 +37,11 @@ class SQLiteExtractor:
             table_name = self.__deque.popleft()
             if self.validate_name(table_name):
                 self.__cur.execute('''SELECT * FROM {0}'''.format(table_name))
-                datas = self.__cur.fetchmany(500)
-                if not self.size_datas(datas):
-                    break
-                yield table_name, datas
+                while True:
+                    datas = self.__cur.fetchmany(500)
+                    if not self.size_datas(datas):
+                        break
+                    yield table_name, datas
 
     @staticmethod
     def validate_name(table_name):

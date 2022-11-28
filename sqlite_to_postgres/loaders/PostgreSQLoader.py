@@ -1,3 +1,5 @@
+import sqlite3, dataclasses
+
 from dataclasses import asdict
 
 from psycopg2.extensions import connection
@@ -15,12 +17,21 @@ class PostgresSaver:
         data_array = datas[1]
         for i in data_array:
             try:
-                data = TABLES[table_name](*i)
-            except:
+                data = dict(i)
+                obj = TABLES[table_name](**data)
+            except Exception as err:
                 continue
             else:
-                self.create_columns(table_name, data)
+                self.create_columns(table_name, obj)
 
     def create_columns(self, table_name, data):
-        columns = asdict(data).keys()
-        print(columns)
+        print(data)
+        columns = ', '.join(asdict(data).keys())
+        args = '%s, ' * len(asdict(data).keys())
+        self.__cur.execute(
+            f"""
+            INSERT INTO content.{table_name} ({columns})
+            VALUES ({args[:-2]})
+            ON CONFLICT (id) DO NOTHING;
+            """, tuple(asdict(data).values())
+        )

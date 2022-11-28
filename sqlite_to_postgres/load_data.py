@@ -25,4 +25,5 @@ if __name__ == '__main__':
 
     with sqlite3.connect(dsl['sqlite']['dbname']) as sqlite_conn,\
             psycopg2.connect(**dsl['postgres'], cursor_factory=DictCursor) as pg_conn:
+        sqlite_conn.row_factory = sqlite3.Row
         load_from_sqlite(sqlite_conn, pg_conn)

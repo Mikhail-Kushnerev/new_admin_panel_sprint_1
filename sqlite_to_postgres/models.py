@@ -1,6 +1,5 @@
-import attr
 import uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional
 
@@ -12,21 +11,21 @@ class Id:
 
 @dataclass
 class Time(Id):
-    created_at: datetime
     updated_at: datetime
+    created_at: datetime
 
 
 @dataclass
 class Movie(Time):
     title: str
-    description: str
-    creation_date: datetime
-    file_path: str
-    rating: float
+    rating: Optional[float]
     type: str
+    description: Optional[str]
+    file_path: Optional[str]
+    creation_date: datetime = field(default_factory=datetime.now)
 
 
-@dataclass(kw_only=True)
+@dataclass
 class Genre(Time):
     name: str
     description: Optional[str] = None
@@ -34,9 +33,9 @@ class Genre(Time):
 
 @dataclass
 class GenreFilmwork(Id):
-    film_work: uuid
-    genre: uuid
-    created_at: datetime
+    film_work_id: uuid = field(default_factory=uuid.uuid4)
+    genre_id: uuid = field(default_factory=uuid.uuid4)
+    created_at: datetime = field(default_factory=datetime.now)
 
 
 @dataclass
@@ -46,16 +45,16 @@ class Person(Time):
 
 @dataclass
 class PersonFilmwork(Id):
-    film_work: uuid
-    person: uuid
-    role: str
-    created_at: datetime
+    role: Optional[str] = None
+    created_at: datetime = field(default_factory=datetime.now)
+    film_work_id: uuid = field(default_factory=uuid.uuid4)
+    person_id: uuid = field(default_factory=uuid.uuid4)
 
 
 TABLES = {
-    'film_work': Movie,
-    'genre': Genre,
-    'genre_film_work': GenreFilmwork,
-    'person': Person,
+    # 'film_work': Movie,
+    # 'genre': Genre,
+    # 'genre_film_work': GenreFilmwork,
+    # 'person': Person,
     'person_film_work': PersonFilmwork
 }

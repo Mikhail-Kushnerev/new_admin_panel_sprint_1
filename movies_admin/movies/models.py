@@ -9,7 +9,10 @@ from core.models import TimeStampedMixin, UUIDMixin
 
 class Genre(TimeStampedMixin):
     name = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(
+        # blank=True,
+        null=True,
+    )
 
     class Meta:
         db_table = 'content\".\"genre'
@@ -30,19 +33,23 @@ class Filmwork(TimeStampedMixin):
     description = models.TextField(
         verbose_name=_('description'),
         max_length=255,
+        null=True,
     )
     creation_date = models.DateField(
         verbose_name=_('creation_date'),
+        null=True,
         auto_created=True,
     )
     file_path = models.FileField(
         verbose_name=_('image'),
         upload_to='movies/',
         blank=True,
+        null=True,
     )
     rating = models.FloatField(
         verbose_name=_('rating'),
         blank=True,
+        null=True,
         validators=(
             MinValueValidator(0),
             MaxValueValidator(100),
@@ -64,12 +71,6 @@ class Filmwork(TimeStampedMixin):
 
     class Meta:
         db_table = 'content\".\"film_work'
-        constraints = [
-            models.UniqueConstraint(
-                fields=('title', 'type'),
-                name=_('Filmwork with this type exists'),
-            ),
-        ]
         verbose_name = _('Filmwork')
         verbose_name_plural = _('Filmworks')
 
@@ -83,7 +84,7 @@ class GenreFilmwork(UUIDMixin):
         Genre,
         on_delete=models.CASCADE,
     )
-    created = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'content\".\"genre_film_work'
@@ -121,13 +122,13 @@ class PersonFilmwork(UUIDMixin):
         max_length=255,
         choices=Role.choices,
     )
-    created = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'content\".\"person_film_work'
         constraints = [
             models.UniqueConstraint(
-                fields=('person', 'film_work'),
-                name=_('Actor was added to this Filmwork'),
+                fields=('person', 'film_work', 'role'),
+                name=_('Actor with this Role was added to this Filmwork'),
             ),
         ]
