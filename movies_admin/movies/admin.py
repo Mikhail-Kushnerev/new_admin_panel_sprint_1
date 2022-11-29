@@ -21,6 +21,7 @@ class GenreFilmworkInline(admin.TabularInline):
     model = GenreFilmwork
     autocomplete_fields = ('genre',)
 
+
 @admin.register(Filmwork)
 class FilmworkAdmin(admin.ModelAdmin):
     inlines = (
