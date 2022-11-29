@@ -14,11 +14,12 @@ from .models import (
 
 class PersonFilmworkInline(admin.TabularInline):
     model = PersonFilmwork
+    autocomplete_fields = ('person',)
 
 
 class GenreFilmworkInline(admin.TabularInline):
     model = GenreFilmwork
-
+    autocomplete_fields = ('genre',)
 
 @admin.register(Filmwork)
 class FilmworkAdmin(admin.ModelAdmin):
@@ -28,12 +29,13 @@ class FilmworkAdmin(admin.ModelAdmin):
     )
     list_display = ('title', 'rating', 'type', 'creation_date')
     list_filter = ('rating', 'type')
-    search_fields = ('title', 'description')
+    search_fields = ('title', 'description', 'genre')
 
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
+    search_fields = ('genre',)
 
 
 @admin.register(Person)

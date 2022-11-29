@@ -20,6 +20,9 @@ class Genre(TimeStampedMixin):
         verbose_name = _('Genre')
         verbose_name_plural = _('Genres')
 
+    def __str__(self):
+        return self.name
+
 
 class Filmwork(TimeStampedMixin):
 
@@ -75,6 +78,9 @@ class Filmwork(TimeStampedMixin):
         verbose_name = _('Filmwork')
         verbose_name_plural = _('Filmworks')
 
+    def __str__(self):
+        return self.title
+
 
 class GenreFilmwork(UUIDMixin):
     film_work = models.ForeignKey(
@@ -90,6 +96,8 @@ class GenreFilmwork(UUIDMixin):
     class Meta:
         db_table = 'content\".\"genre_film_work'
 
+    def __str__(self):
+        return f"{self.film_work} – {self.genre}"
 
 class Person(TimeStampedMixin):
 
@@ -102,6 +110,9 @@ class Person(TimeStampedMixin):
         db_table = 'content\".\"person'
         verbose_name = _('Person')
         verbose_name_plural = _('Persons')
+
+    def __str__(self):
+        return self.full_name
 
 
 class PersonFilmwork(UUIDMixin):
@@ -133,3 +144,6 @@ class PersonFilmwork(UUIDMixin):
                 name=_('Actor with this Role was added to this Filmwork'),
             ),
         ]
+
+    def __str__(self):
+        return f"{self.film_work} - {self.person}"

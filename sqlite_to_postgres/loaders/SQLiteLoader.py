@@ -1,9 +1,9 @@
+import logging
 from sqlite3 import Connection
-from collections import deque
+from typing import Generator, Any
 
 from sqlite_to_postgres.models import TABLES
-from sqlite_to_postgres.utils import PAGE_SIZE
-from sqlite_to_postgres.utils import EmptyDBError
+from sqlite_to_postgres.utils import PAGE_SIZE, DB_SIZE
 
 
 class SQLiteExtractor:
@@ -11,16 +11,14 @@ class SQLiteExtractor:
     def __init__(
             self,
             conn: Connection,
-            deque=deque(),
-    ):
-        self.__cur = conn.cursor()
-        self.__deque = deque
+    ) -> None:
+        self.__cur: Connection.cursor = conn.cursor()
 
     def extract_movies(self):
-        self.check_tables()
-        return self.send_datas()
+        table_names: Generator[str] = self._check_tables()
+        return self._send_datas(table_names)
 
-    def check_tables(self):
+    def _check_tables(self):
         self.__cur.execute(
             '''
             SELECT name
@@ -28,15 +26,22 @@ class SQLiteExtractor:
             WHERE type='table';
             ''',
         )
-        datas = self.__cur.fetchall()
-        if not self.size_datas(datas):
-            raise EmptyDBError('Исходная таблица не содержит данных!')
-        for table_name in datas:
-            self.__deque.append(table_name[0])
+        while True:
+            tables: list = self.__cur.fetchmany(DB_SIZE)
+            count_tables: int = self.size_datas(tables)
+            if not count_tables:
+                logging.info('Собраны названия всех таблиц.')
+                break
+            for table_name in tables:
+                yield table_name
 
-    def send_datas(self):
-        while self.__deque:
-            table_name = self.__deque.popleft()
+    def _send_datas(
+            self,
+            table
+    ):
+        for table_name in table:
+            table_name: str = dict(table_name)['name']
+            logging.info('Сбор записей таблицы {0}'.format(table_name))
             if self.validate_name(table_name):
                 self.__cur.execute(
                     '''
@@ -44,15 +49,21 @@ class SQLiteExtractor:
                     '''.format(table_name),
                 )
                 while True:
-                    datas = self.__cur.fetchmany(PAGE_SIZE)
-                    if not self.size_datas(datas):
+                    table_datas: list = self.__cur.fetchmany(PAGE_SIZE)
+                    length_table_datas: int = self.size_datas(table_datas)
+                    if not length_table_datas:
+                        logging.info(
+                            'Собраны все записи таблицы {0}'.format(
+                                table_name
+                            )
+                        )
                         break
-                    yield table_name, datas
+                    yield table_name, table_datas
 
     @staticmethod
-    def validate_name(table_name):
+    def validate_name(table_name: str):
         return TABLES[table_name] if table_name in TABLES else False
 
     @staticmethod
-    def size_datas(datas):
+    def size_datas(datas: list[Any]):
         return len(datas)

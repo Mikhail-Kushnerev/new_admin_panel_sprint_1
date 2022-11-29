@@ -1,11 +1,21 @@
 import os
+import sqlite3
+from contextlib import contextmanager
 
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
-dsl = {
+@contextmanager
+def conn_sqlite(db_path: str):
+    conn: sqlite3.Connection = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    yield conn
+    conn.close()
+
+
+dsl: dict[str, dict[str | int]] = {
     'postgres': {
         'dbname': os.getenv('POSTGRES_DB', default='postgres'),
         'user': os.getenv('POSTGRES_USER', default='postgres'),

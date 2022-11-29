@@ -1,13 +1,16 @@
 """Кастомные исключения."""
 
 
+import logging
+
+
 class WrongValuesError(Exception):
     def __init__(self):
         self.__msg = 'Данные не валидны!'
 
     def __call__(self, *args, **kwargs):
-        print(self.__msg)
+        logging.error(self.__msg)
 
 
-class EmptyDBError(Exception):
+class WrongSaveError(Exception):
     pass
